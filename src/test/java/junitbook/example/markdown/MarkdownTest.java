@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.LogManager;
-import java.util.stream.Collectors;
 
 import org.junit.Test;
 
@@ -32,9 +31,15 @@ public class MarkdownTest {
     }
 
     private static String load(String resourceName) throws IOException {
+        StringBuilder text = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(
                 MarkdownTest.class.getResourceAsStream(resourceName)))) {
-            return br.lines().collect(Collectors.joining("\n")) + "\n";
+            for (;;) {
+              String line =  br.readLine();
+                if (line == null) break;
+                text.append(line).append("\n");
+            }
         }
+        return text.toString();
     }
 }
